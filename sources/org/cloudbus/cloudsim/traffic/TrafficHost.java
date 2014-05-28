@@ -9,6 +9,8 @@ import org.cloudbus.cloudsim.HostDynamicWorkload;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Pe;
 import org.cloudbus.cloudsim.VmScheduler;
+import org.cloudbus.cloudsim.traffic.lists.TrafficVmList;
+
 import org.cloudbus.cloudsim.traffic.lists.TrafficPeList;
 import org.cloudbus.cloudsim.provisioners.BwProvisioner;
 import org.cloudbus.cloudsim.provisioners.RamProvisioner;
@@ -102,9 +104,16 @@ public class TrafficHost extends HostDynamicWorkload {
 		
 		else return false;
 	}
+	//选择一个合适的VM来迁移，直到当前host上的mips不过载
     public List<TrafficVm> selectVmForMigration(){
     	double aviblemips=this.getAvailableMips();
     	List<TrafficVm> vmList=this.getVmList();
+    	org.cloudbus.cloudsim.traffic.lists.TrafficVmList.sortByCommTraffic(vmList);
+    	
+    	Log.printLine("in the TrafficHost selectVmforMigration, after sort by CommTraffic");
+    	for(TrafficVm vm:vmList)
+    		Log.print(vm.getId()+" ");
+    	
     	List<TrafficVm> selectVm = null;
     	//sort(vmList,)
     	int pos=0;
@@ -121,7 +130,7 @@ public class TrafficHost extends HostDynamicWorkload {
 
    
 
-   public void selectVmForHost(List<TrafficVm> selectVmList, List<TrafficHost> hostList)
+   public void selectHostForVm(List<TrafficVm> selectVmList, List<TrafficHost> hostList)
     {
 	   //selectVmForMigration
 	   Iterator<TrafficVm> iter=selectVmList.iterator();

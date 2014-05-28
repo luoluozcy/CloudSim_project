@@ -44,18 +44,20 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 
 	/** The utilization threshold. */
 	private double utilizationThreshold;
-	private  List<TrafficVm> vmList;
+	//private  List<TrafficVm> vmList;
 	/**
 	 * Instantiates a new vM provisioner mpp.
 	 *
 	 * @param list the list
 	 * @param utilizationThreshold the utilization bound
 	 */
-	public TrafficVmAllocation(List<? extends TrafficHost> list, double utilizationThreshold,List<TrafficVm> vmList)  {
+	public TrafficVmAllocation(List<? extends TrafficHost> list, double utilizationThreshold)  {
 		super(list);
 		setSavedAllocation(new ArrayList<Map<String,Object>>());
 		setUtilizationThreshold(utilizationThreshold);
-		setVmList(vmList);
+		//setVmList(vmList);
+		 //for(TrafficVm vm1: vmList)
+	      //    Log.printLine("TrafficVmAllocation, the vmList is "+vm1.getId());
 	}
 
 	/**
@@ -66,36 +68,45 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	 * @return the host
 	 */
 	
-	public void setVmList(List<TrafficVm> vmList)
-	{
-		this.vmList=vmList;
-	}
-	public TrafficHost findHostForVm(TrafficVm vm) {
-		double minTraffic = Double.MIN_VALUE;
+	//public void setVmList(List<TrafficVm> vmList)
+	//{
+	//	this.vmList=vmList;
+	//}
+	public TrafficHost findHostForVm(TrafficVm vm,List<? extends Vm> vmList) {
+		double minTraffic = Double.MAX_VALUE;
+	//	Log.printLline();
 		TrafficHost allocatedHost = null;
 
 		for (TrafficHost host : this.<TrafficHost>getHostList())//寻找满足阈值要求的host
 		{
 			if (host.isSuitableForVm(vm))//判断host是否满足条件
-			{
+			{   
 				double maxUtilization = getMaxUtilizationAfterAllocation(host, vm);
-				if ((!vm.isRecentlyCreated() && maxUtilization > getUtilizationThreshold()) || (vm.isRecentlyCreated() && maxUtilization > 1.0)) {
-					continue;//设置利用率阈值，如果低于下限酒不符合要求
+				Log.printLine("vm"+ vm.getId()+" host "+host.getId()+" "+ maxUtilization + maxUtilization+"  vm.isRecentlyCreated()"+ vm.isRecentlyCreated());
+			if ((!vm.isRecentlyCreated() && maxUtilization > getUtilizationThreshold()) || (vm.isRecentlyCreated() && maxUtilization > 1.0)) {
+				//if ((vm.isRecentlyCreated() && maxUtilization > 1.0)) {
+				   continue;//设置利用率阈值，如果高于阈值则不符合要求
 				}
-				try {
-					double trafficAfterAllocation = getTrafficAfterAllocation(host, vm);//获得vm放到host上后的traffic
+				try { 
+					Log.printLine(" findHostForVm and try");
+					double trafficAfterAllocation = getTrafficAfterAllocation(host, vm,vmList);//获得vm放到host上后的traffic
+					Log.printLine("vm"+ vm.getId()+" host "+host.getId());
+					Log.printLine("trafficAfterAllocation " + trafficAfterAllocation);
+					Log.printLine("trafficAfterAllocation "+ trafficAfterAllocation+" minTraffic "+ minTraffic);
+
 					if (trafficAfterAllocation != -1) {
 						//double trafficDiff = trafficAfterAllocation - host.getTraffic();
 						if (trafficAfterAllocation < minTraffic) {
 							minTraffic = trafficAfterAllocation;
 							allocatedHost = host;
+							Log.printLine("trafficAfterAllocation "+ trafficAfterAllocation+" minTraffic "+ minTraffic+ " allocatedHost"+ allocatedHost.getId());
 						}
 					}
 				} catch (Exception e) {
 				}
 			}
 		}
-
+         
 		return allocatedHost;
 	}
 
@@ -110,8 +121,8 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	 * @post $none
 	 */
 	//完成VM到host的初始分配
-	public boolean allocateHostForVm(TrafficVm vm) {
-		TrafficHost allocatedHost = findHostForVm(vm);
+	public boolean allocateHostForVm(TrafficVm vm,List<TrafficVm> vmList) {
+		TrafficHost allocatedHost = findHostForVm(vm,vmList);
 		if (allocatedHost != null && allocatedHost.vmCreate(vm)) { //if vm has been succesfully created in the host
 			getVmTable().put(vm.getUid(), allocatedHost);//返回的是userid，和被分配的host
 			if (!Log.isDisabled()) {
@@ -130,8 +141,7 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	 * @pre $none
 	 * @post none
 	 */
-	@Override
-	public void deallocateHostForVm(Vm vm) {
+	public void deallocateHostForVm(Vm vm,List<? extends Vm> vmList) {
 		if (getVmTable().containsKey(vm.getUid())) {
 			TrafficHost host = (TrafficHost) getVmTable().remove(vm.getUid());
 			if (host != null) {
@@ -148,13 +158,26 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	 *
 	 * @return the array list< hash map< string, object>>
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Map<String, Object>> optimizeAllocation(List<? extends Vm> vmList) {
+		Log.printLine(" in trafficVMallocation optimizeAllocation " );
+		Log.printLine("vmList ");
+		for(Vm v:vmList)
+		Log.printLine(v.getId());
+		
+		//List<Map<String, Object>> saveMap = new ArrayList<Map<String, Object>>();
+		//for(Map<String, Object> m:saveMap)
+		//{
+		//	m.
+	//	}
 		List<Map<String, Object>> migrationMap = new ArrayList<Map<String, Object>>();
 		if (vmList.isEmpty()) {
 			return migrationMap;
 		}
-		saveAllocation(vmList);
+		
+		//saveAllocation(vmList);
+		
 		List<TrafficVm> vmsToRestore = new ArrayList<TrafficVm>();
 		vmsToRestore.addAll((Collection<? extends TrafficVm>) vmList);
 
@@ -163,13 +186,14 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 			if (vm.isRecentlyCreated() || vm.isInMigration()) {
 				continue;
 			}
+			//获取可以迁移的VM
 			vmsToMigrate.add((TrafficVm) vm);
-			Log.printLine("in the TrafficVmAllocaton,the vmlist is "+vm.getId());
-			for(TrafficVm vm1 : vmsToMigrate)
-				Log.printLine(vm1.getId());
-			for(int i=0;i<vmsToMigrate.size();i++)
-				Log.printLine(vmsToMigrate.get(i).getId());
-			vm.getHost().vmDestroy(vm);			
+			//Log.printLine("in the TrafficVmAllocaton,the vmlist is "+vm.getId());
+			//for(TrafficVm vm1 : vmsToMigrate)
+			//	Log.printLine(vm1.getId());
+		//	for(int i=0;i<vmsToMigrate.size();i++)
+		//		Log.printLine(vmsToMigrate.get(i).getId());
+			vm.getHost().vmDestroy(vm);	//这里把vmlist设置为null，其host为null		
 		}
 		Log.printLine("in the TrafficVmAllocaton, before sort, the vmlist is ");
 		for(int i=0;i<vmsToMigrate.size();i++)
@@ -178,17 +202,26 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 		Log.printLine("in the TrafficVmAllocaton, after sort, the vmlist is ");		
 		for(int i=0;i<vmsToMigrate.size();i++)
 			Log.print(vmsToMigrate.get(i).getId()+" ");
-
+		//setSavedAllocation();
 		for (TrafficHost host : this.<TrafficHost>getHostList()) {
 			host.reallocateMigratingVms();
 		}
-
+		Log.printLine("in the TrafficVmAllocaton, the vmsToMigrate is ");		
+		//List<Map<String, Object>> saveMap =this.getSavedAllocation() ;
+		//for (TrafficVm v : vmsToMigrate) {
+		//	Log.printLine(v.getId()+"  "+v.getHost().getId());
+		//}
 		for (TrafficVm vm : vmsToMigrate) {
 			TrafficHost oldHost = (TrafficHost) getVmTable().get(vm.getUid());
-			TrafficHost allocatedHost = findHostForVm(vm);
+			Log.printLine("vm "+vm.getId()+" oldHost "+oldHost.getId());
+			TrafficHost allocatedHost = findHostForVm(vm,vmList);
+			Log.printLine("vm "+vm.getId()+" allocatedHost "+allocatedHost.getId());
+			
+			Log.printLine("vm "+vm.getId()+" oldHost "+oldHost.getId()+ " allocatedHost "+allocatedHost.getId());
+			
 			if (allocatedHost != null && allocatedHost.getId() != oldHost.getId()) {
 				allocatedHost.vmCreate(vm);
-				Log.printLine("VM #" + vm.getId() + " allocated to host #" + allocatedHost.getId());
+				Log.printLine("VM #" + vm.getId() + "original host #"+oldHost.getId()+" ,the host #" + allocatedHost.getId());
 
 				Map<String, Object> migrate = new HashMap<String, Object>();
 				migrate.put("vm", vm);
@@ -198,7 +231,7 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 		}
 
 		restoreAllocation(vmsToRestore, getHostList());
-
+         
 		return migrationMap;
 	}
 
@@ -227,6 +260,7 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 			host.vmDestroyAll();
 			host.reallocateMigratingVms();
 		}
+		Log.printLine("restoreAllocation"+ getSavedAllocation().size());
 		for (Map<String, Object> map : getSavedAllocation()) {
 			Vm vm = (Vm) map.get("vm");
 			TrafficHost host = (TrafficHost) map.get("host");
@@ -242,12 +276,14 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 		}
 	}
 
-	public double getCommVMID(int vmid) {
+	public double getCommVMID(List<TrafficVm> vmList,int vmid) {
 		//double BwMatrix[][]=NetworkTopology.getBwMatrix();
 		double traffic=0.0;
-		int VmNum=NetworkTopology.getVmNum();
-		for(int i=0;i< VmNum;i++)
-		traffic+=NetworkTopology.getBw(i, vmid)+NetworkTopology.getBw (vmid,i);
+		//int VmNum=NetworkTopology.getVmNum();
+		
+		//for(int i=0;i< VmNum;i++)
+		for(TrafficVm vm: vmList)
+		traffic+=NetworkTopology.getBw(vm.getId(), vmid)+NetworkTopology.getBw (vmid,vm.getId());
 		return traffic;		
 		//return TrafficPeList.getTraffic((List<TrafficPe>) getPeList());
 	}
@@ -259,22 +295,31 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	 */
 	//计算把 VM放到host上的带来的traffic
 	@SuppressWarnings("unchecked")
-	public double getTraffic(TrafficHost host, TrafficVm vm,List<TrafficVm> vmList ) {
-		Log.print("in trafficVm, the vmlist ");
+	public double getTraffic(TrafficHost host, TrafficVm vm,List<? extends Vm> vmList ) {
+		Log.print("in trafficVm, the vmlist "+vmList.size());
 		for(int i=0;i<vmList.size();i++)
 			Log.print(vmList.get(i).getId()+" ");
 		//double BwMatrix[][]=NetworkTopology.getBwMatrix();
-		int VmNum=NetworkTopology.getVmNum();
+		//int VmNum=NetworkTopology.getVmNum();
+		//List<Map<String, Object>> saveMap =this.getSavedAllocation() ;
 		double traffic=0.0;
-		for(int i=0;i< VmNum;i++){
+		for(int i=0;i< vmList.size();i++){
 			Log.printLine("in trafficVm");
-			Log.print(vm.getHost().getId()+" "+TrafficVmList.getById(vmList,i).getHost().getId());
-			double dis=HostTopology.getDelay(vm.getHost().getId(), TrafficVmList.getById(vmList,i).getHost().getId());
+			Log.printLine("vm"+vm.getId()+" vmList[i]"+vmList.get(i).getId());
+		//	Log.printLine(saveMap.);
+			TrafficHost hostsrc = (TrafficHost) getVmTable().get(vm.getUid());
+			Log.printLine("hostsrc "+hostsrc.getId()+" ====host"+host.getId());
+			Log.printLine("hostsrc"+ hostsrc.getId());
+			TrafficVm vm2=(TrafficVm) TrafficVmList.getById(vmList,vmList.get(i).getId());
+			TrafficHost hostdes=(TrafficHost) getVmTable().get(vm2.getUid());
+				Log.printLine("hostdes "+hostdes.getId());
+				
+			double dis=HostTopology.getDelay(hostsrc.getId(), hostdes.getId());
 		   Log.print(dis);
 		   Log.printLine();
-			traffic+=NetworkTopology.getBw(i, vm.getId())*dis;
-		dis=HostTopology.getDelay( TrafficVmList.getById(vmList,i).getHost().getId(),vm.getHost().getId());
-		traffic+=NetworkTopology.getBw (vm.getId(),i)*dis;
+			traffic+=NetworkTopology.getBw(vmList.get(i).getId(), vm.getId())*dis;
+		//dis=HostTopology.getDelay( TrafficVmList.getById(vmList,i).getHost().getId(),vm.getHost().getId());
+		traffic+=NetworkTopology.getBw (vm.getId(),vmList.get(i).getId())*dis;
 		}
 		return traffic;
 	}
@@ -288,7 +333,7 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	 *
 	 * @return the traffic after allocation
 	 */
-	protected double getTrafficAfterAllocation(TrafficHost host, TrafficVm vm) {
+	protected double getTrafficAfterAllocation(TrafficHost host, TrafficVm vm,List<? extends Vm> vmList) {
 		List<Double> allocatedMipsForVm = null;
 		TrafficHost allocatedHost = (TrafficHost) vm.getHost();//allocayedHost是VM所放置的host
 
@@ -299,8 +344,10 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 		if (!host.allocatePesForVm(vm, vm.getCurrentRequestedMips())) {
 			return -1;
 		}
-
-		double traffic = getTraffic(host, vm, vmList);
+          for(Vm vm1: vmList)
+          Log.printLine("getTrafficAfterAllocation, the vmList is "+vm1.getId());
+		  
+          double traffic = getTraffic(host, vm, vmList);
    
 		
 		//////////////需要改////////
@@ -321,7 +368,7 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	 *
 	 * @return the traffic after allocation
 	 */
-	protected double getMinTrafficAfterAllocation(TrafficHost host, Vm vm) {
+	/*protected double getMinTrafficAfterAllocation(TrafficHost host, Vm vm) {
 		List<Double> allocatedMipsForVm = null;
 		TrafficHost allocatedHost = (TrafficHost) vm.getHost();
 
@@ -343,7 +390,7 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 
 		return maxUtilization;
 	}
-
+*/
 	
 	protected double getMaxUtilizationAfterAllocation(TrafficHost host, Vm vm) {
 		List<Double> allocatedMipsForVm = null;

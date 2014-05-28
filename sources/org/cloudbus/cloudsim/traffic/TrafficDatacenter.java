@@ -52,7 +52,7 @@ public class TrafficDatacenter extends Datacenter {
 	public TrafficDatacenter(
 			String name,
 			DatacenterCharacteristics characteristics,
-			VmAllocationPolicy vmAllocationPolicy,
+			TrafficVmAllocation vmAllocationPolicy,
 			List<Storage> storageList,
 			double schedulingInterval) throws Exception {
 		super(name, characteristics, vmAllocationPolicy, storageList, schedulingInterval);
@@ -145,15 +145,18 @@ public class TrafficDatacenter extends Datacenter {
 			}
 
 			Log.printLine();
-
+			Log.printLine("  in trafficDatacenter, the updateCloudletProcessing,isDisableMigrations "+isDisableMigrations());
 			if (!isDisableMigrations()) {
 				List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocation(getVmList());
-
+           Log.printLine("  migrationMap " +migrationMap.size());
 				for (Map<String, Object> migrate : migrationMap) {
 					Vm vm = (Vm) migrate.get("vm");
 					TrafficHost targetHost = (TrafficHost) migrate.get("host");
-					TrafficHost oldHost = (TrafficHost) vm.getHost();
-
+					//TrafficHost oldHost = (TrafficHost) vm.getHost();
+					TrafficHost oldHost = (TrafficHost) getVmAllocationPolicy().getHost(vm);
+					Log.printLine(" targetHost"+targetHost.getId());
+					Log.printLine(" oldHost"+oldHost.getId());
+                    Log.printLine("vm "+vm.getId()+" oldHost"+ oldHost.getId()+" targetHost"+targetHost.getId());
 					targetHost.addMigratingInVm(vm);
 
 					if (oldHost == null) {

@@ -234,7 +234,7 @@ public class Datacenter extends SimEntity {
            	case CloudSimTags.VM_DESTROY_ACK:
         		processVmDestroy(ev, true);
         		break;
-
+        		//VM_MIGRATE
            	case CloudSimTags.VM_MIGRATE:
            		processVmMigrate(ev, false);
            		break;

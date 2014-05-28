@@ -124,6 +124,7 @@ public class Host {
 			getRamProvisioner().allocateRamForVm(vm, vm.getCurrentRequestedRam());
 			getBwProvisioner().allocateBwForVm(vm, vm.getCurrentRequestedBw());
 			getVmsMigratingIn().add(vm);
+			Log.printLine(" in addVmsMigratingIn"+ vm.getId());
 		}
 	}
 
@@ -135,6 +136,7 @@ public class Host {
 
 	public void reallocateMigratingVms() {
 		for (Vm vm : getVmsMigratingIn()) {
+			Log.printLine("reallocateMigratingVms "+vm.getId());
 			getRamProvisioner().allocateRamForVm(vm, vm.getCurrentRequestedRam());
 			getBwProvisioner().allocateBwForVm(vm, vm.getCurrentRequestedBw());
 		}
@@ -579,7 +581,8 @@ public class Host {
 	 * @return the vms migrating in
 	 */
     public List<Vm> getVmsMigratingIn() {
-		return vmsMigratingIn;
+    	Log.printLine("in the getVmsMigratingIn "+vmsMigratingIn.size());
+    	return vmsMigratingIn;
 	}
 
 	/**
@@ -588,6 +591,7 @@ public class Host {
 	 * @param vmsMigratingIn the new vms migrating in
 	 */
 	protected void setVmsMigratingIn(List<Vm> vmsMigratingIn) {
+		Log.printLine("in the setVmsMigratingIn "+vmsMigratingIn.size());
 		this.vmsMigratingIn = vmsMigratingIn;
 	}
 	

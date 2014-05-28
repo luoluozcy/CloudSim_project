@@ -104,11 +104,11 @@ public class SingleThreshold {
 			//Log.printLine("TotalList :"+TotalvmList.size());
 			//TotalvmList=new List<>
 		 // TotalvmList=new List;//(vmList);
-			for(int i=0;i<vmList.size();i++){
+			//for(int i=0;i<vmList.size();i++){
 				//Total
-				TotalvmList.add(vmList.get(i));
-			    Log.printLine(TotalvmList.get(i));
-			}
+				//TotalvmList.add(vmList.get(i));
+			   // Log.printLine(TotalvmList.get(i));
+			//}
 			// submit vm list to the broker
 			broker.submitVmList(vmList);//把待创建VMList发送给broker
 		                               	//向代理Broker提交虚拟机列表
@@ -150,12 +150,12 @@ public class SingleThreshold {
 				
 			//maps CloudSim entities to BRITE entities
 			//PowerDatacenter will correspond to BRITE node 0
-			int briteNode=0;
-			NetworkTopology.mapNode(datacenter.getId(),briteNode);
+			//int briteNode=0;
+			//NetworkTopology.mapNode(datacenter.getId(),briteNode);
             
 			//Broker will correspond to BRITE node 3
-			briteNode=3;
-			NetworkTopology.mapNode(broker.getId(),briteNode);
+			//briteNode=3;
+		//	NetworkTopology.mapNode(broker.getId(),briteNode);
 
 			//-----------------------------------------------End of Topu----------------------------------------------//
 			// Sixth step: Starts the simulation
@@ -348,13 +348,17 @@ public class SingleThreshold {
 
 		// 6. Finally, we need to create a TrafficDatacenter object.
 		TrafficDatacenter trafficDatacenter = null;
+		  // for(TrafficVm vm1: vmList)
+		     //     Log.printLine("TrafficVmAllocation, the vmList is "+vm1.getId());
 		try {
 			trafficDatacenter = new TrafficDatacenter(
 					name,
 					characteristics,
-					new TrafficVmAllocation(hostList, utilizationThreshold, vmList),
+					new TrafficVmAllocation(hostList, utilizationThreshold),
 					new LinkedList<Storage>(),
 					5.0);
+			 
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

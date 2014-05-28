@@ -46,7 +46,8 @@ public class TrafficVmList extends VmList {
 	}
 	
 	public static double getCommVMID(List<TrafficVm> vmList, int vmid) {
-		//double BwMatrix[][]=NetworkTopology.getBwMatrix();
+
+//double BwMatrix[][]=NetworkTopology.getBwMatrix();
 		double traffic=0.0;
 		int VmNum=vmList.size();
 		

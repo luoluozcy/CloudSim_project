@@ -187,6 +187,43 @@ public class TrafficDatacenter extends Datacenter {
 		}
 	}
 
+	protected void processVmCreate(SimEvent ev, boolean ack) {
+    	Vm vm = (Vm) ev.getData();
+        Log.printLine("In datacenter processVmCreate, the vm"+vm.getId()+"  this.getVmList()"+this.getVmList().size());
+ 	   Log.printLine(" getVmAllocationPolicy()"+  getVmAllocationPolicy().getClass());
+       //boolean result = getVmAllocationPolicy().allocateHostForVm1((TrafficVm)vm,this.getVmList());
+       boolean result = getVmAllocationPolicy().allocateHostForVm(vm);
+ 	    if (ack) {
+ 	       int[] data = new int[3];
+           data[0] = getId();
+ 	       data[1] = vm.getId();
+
+           if (result) {
+        	   data[2] = CloudSimTags.TRUE;
+           } else {
+        	   data[2] = CloudSimTags.FALSE;
+           }
+		   sendNow(vm.getUserId(), CloudSimTags.VM_CREATE_ACK, data);
+ 	    }
+
+ 	    if (result) {
+			double amount = 0.0;
+			if (getDebts().containsKey(vm.getUserId())) {
+				amount = getDebts().get(vm.getUserId());
+			}
+			amount += getCharacteristics().getCostPerMem() * vm.getRam();
+			amount += getCharacteristics().getCostPerStorage() * vm.getSize();
+
+			getDebts().put(vm.getUserId(), amount);
+
+			getVmList().add((TrafficVm) vm);
+
+			vm.updateVmProcessing(CloudSim.clock(), getVmAllocationPolicy().getHost(vm).getVmScheduler().getAllocatedMipsForVm(vm));
+ 	    }
+
+    }
+
+	
 	/* (non-Javadoc)
 	 * @see cloudsim.Datacenter#processCloudletSubmit(cloudsim.core.SimEvent, boolean)
 	 */

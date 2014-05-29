@@ -74,10 +74,18 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	//	this.vmList=vmList;
 	//}
 	public TrafficHost findHostForVm(TrafficVm vm,List<? extends Vm> vmList) {
+		Log.printLine("in TrafficVmallocation, the findHostForVm");
 		double minTraffic = Double.MAX_VALUE;
 	//	Log.printLline();
 		TrafficHost allocatedHost = null;
-
+        if(vmList.size()==0) {
+        	//int rd=random()%this.<TrafficHost>getHostList().size();
+        	int maxNum=this.<TrafficHost>getHostList().size()-1;
+        			int index=(int)(0+Math.random()*(maxNum+0));
+        			Log.printLine("index and host " + index+" "+this.<TrafficHost>getHostList().get(index));
+        			return this.<TrafficHost>getHostList().get(index);
+        	//return 
+        }
 		for (TrafficHost host : this.<TrafficHost>getHostList())//寻找满足阈值要求的host
 		{
 			if (host.isSuitableForVm(vm))//判断host是否满足条件
@@ -122,7 +130,10 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	 * @post $none
 	 */
 	//完成VM到host的初始分配
-	public boolean allocateHostForVm(TrafficVm vm,List<TrafficVm> vmList) {
+	@Override
+	public boolean allocateHostForVm1(TrafficVm vm,List<TrafficVm> vmList) {
+		//this.get
+		Log.printLine("in TrafficVMAllocation, allocateHostForVm");
 		TrafficHost allocatedHost = findHostForVm(vm,vmList);
 		if (allocatedHost != null && allocatedHost.vmCreate(vm)) { //if vm has been succesfully created in the host
 			getVmTable().put(vm.getUid(), allocatedHost);//返回的是userid，和被分配的host

@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.traffic.TrafficVm;
 
 /**
  * VmAllocationPolicySimple is an VmAllocationPolicy that
@@ -111,7 +112,50 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 
 		return result;
 	}
+	@Override
+	public boolean allocateHostForVm1(TrafficVm vm,List<TrafficVm> vmList) {
+		Log.printLine("in VmAllocationSimple");
+		int requiredPes = vm.getPesNumber();
+		boolean result = false;
+		int tries = 0;
+		List<Integer> freePesTmp = new ArrayList<Integer>();
+		for (Integer freePes : getFreePes()) {
+			freePesTmp.add(freePes);
+		}
 
+		if (!getVmTable().containsKey(vm.getUid())) { //if this vm was not created
+			do {//we still trying until we find a host or until we try all of them
+				int moreFree = Integer.MIN_VALUE;
+				int idx = -1;
+
+				//we want the host with less pes in use
+				for (int i=0; i < freePesTmp.size(); i++) {
+					if (freePesTmp.get(i) > moreFree) {
+						moreFree = freePesTmp.get(i);
+						idx = i;
+					}
+				}
+
+				Host host = getHostList().get(idx);
+				result = host.vmCreate(vm);
+
+				if (result) { //if vm were succesfully created in the host
+					//Log.printLine("VmAllocationPolicy: VM #"+vm.getVmId()+ "Chosen host: #"+host.getMachineID()+" idx:"+idx);
+					getVmTable().put(vm.getUid(), host);
+					getUsedPes().put(vm.getUid(), requiredPes);
+					getFreePes().set(idx, getFreePes().get(idx) - requiredPes);
+					result = true;
+					break;
+				} else {
+					freePesTmp.set(idx, Integer.MIN_VALUE);
+				}
+				tries++;
+			} while (!result && tries < getFreePes().size());
+
+		}
+
+		return result;
+	}
 	/**
 	 * Releases the host used by a VM.
 	 *
@@ -255,4 +299,6 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 
 		return false;
 	}
+
+	
 }

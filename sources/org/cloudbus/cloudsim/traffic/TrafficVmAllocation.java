@@ -142,7 +142,8 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	 * @pre $none
 	 * @post none
 	 */
-	public void deallocateHostForVm(Vm vm,List<? extends Vm> vmList) {
+	@Override
+	public void deallocateHostForVm(Vm vm) {
 		if (getVmTable().containsKey(vm.getUid())) {
 			TrafficHost host = (TrafficHost) getVmTable().remove(vm.getUid());
 			if (host != null) {

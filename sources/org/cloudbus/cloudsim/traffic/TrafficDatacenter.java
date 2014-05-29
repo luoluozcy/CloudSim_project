@@ -136,8 +136,11 @@ public class TrafficDatacenter extends Datacenter {
 			setTraffic(getTraffic() + timeframeTraffic);
 			
 			/** Remove completed VMs **/
+			Log.printLine("in updateCloudletProcessing,the getCompletedVms ");
 			for (TrafficHost host : this.<TrafficHost>getHostList()) {
+				Log.print("host "+host.getId());
 				for (Vm vm : host.getCompletedVms()) {
+					Log.print(" "+vm.getId());
 					getVmAllocationPolicy().deallocateHostForVm(vm);
 					getVmList().remove(vm);
 					Log.printLine("VM #" + vm.getId() + " has been deallocated from host #" + host.getId());

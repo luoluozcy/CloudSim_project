@@ -10,8 +10,10 @@ package org.cloudbus.cloudsim;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.cloudbus.cloudsim.core.CloudSim;
 
@@ -122,6 +124,21 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 	public void deallocateHostForVm(Vm vm) {
 		Host host = getVmTable().remove(vm.getUid());
 		int idx = getHostList().indexOf(host);
+		Log.printLine("deallocateHostForVm, the host uid"+host.getId()+" "+vm.getUid());
+		Map<String, Integer> map=getUsedPes();
+		
+		Log.printLine(map.isEmpty());
+		Log.printLine(map.size());
+		Iterator<Entry<String, Integer>> it=map.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String,Integer > entry=(Map.Entry<String, Integer>) it.next();
+			Object key=entry.getKey();
+			Object value=entry.getValue();
+			Log.printLine("key "+ key+" value"+ value);
+		}
+		//Iterator it=map.entrySet().iterator();
+		
+		Log.printLine(map.containsKey(vm.getUid())+" "+map.containsValue(vm.getId()));
 		int pes = getUsedPes().remove(vm.getUid());
 		if (host != null) {
 			host.vmDestroy(vm);

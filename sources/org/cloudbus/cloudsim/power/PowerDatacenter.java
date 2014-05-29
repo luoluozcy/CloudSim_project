@@ -144,13 +144,20 @@ public class PowerDatacenter extends Datacenter {
 			Log.printLine();
 
 			if (!isDisableMigrations()) {
+				Log.printLine("in the PowerDataceter,test the VMMap befor optimizeAllocation");
+				for(Vm vm:getVmList())
+					Log.printLine("vm : and Host : "+vm.getId()+" "+vm.getHost().getId());
 				List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocation(getVmList());
-
+				Log.printLine();
+				Log.printLine("in the PowerDataceter,test the VMMap after optimizeAllocation");
+				for(Vm vm:getVmList())
+					Log.printLine("vm : and Host : "+vm.getId()+" "+vm.getHost().getId());
 				for (Map<String, Object> migrate : migrationMap) {
 					Vm vm = (Vm) migrate.get("vm");
 					PowerHost targetHost = (PowerHost) migrate.get("host");
 					PowerHost oldHost = (PowerHost) vm.getHost();
-
+					Log.printLine(" targetHost"+targetHost.getId()+ " oldHost"+oldHost.getId());
+                    Log.printLine("vm "+vm.getId()+" oldHost"+ oldHost.getId()+" targetHost"+targetHost.getId());
 					targetHost.addMigratingInVm(vm);
 
 					if (oldHost == null) {

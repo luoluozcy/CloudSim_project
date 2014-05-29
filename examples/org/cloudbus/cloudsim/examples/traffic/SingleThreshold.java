@@ -405,7 +405,7 @@ public class SingleThreshold {
 		for (int i = 0; i < size; i++) {
 			cloudlet = list.get(i);
 			Log.print(indent + cloudlet.getCloudletId());
-
+           
 			if (cloudlet.getCloudletStatus() == Cloudlet.SUCCESS) {
 				Log.printLine(indent + "SUCCESS"
 					+ indent + indent + cloudlet.getResourceId()

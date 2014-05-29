@@ -152,16 +152,16 @@ public class TrafficDatacenter extends Datacenter {
 				for (Map<String, Object> migrate : migrationMap) {
 					Vm vm = (Vm) migrate.get("vm");
 					TrafficHost targetHost = (TrafficHost) migrate.get("host");
-					//TrafficHost oldHost = (TrafficHost) vm.getHost();
-					TrafficHost oldHost = (TrafficHost) getVmAllocationPolicy().getHost(vm);
-					Log.printLine(" targetHost"+targetHost.getId());
-					Log.printLine(" oldHost"+oldHost.getId());
+					TrafficHost oldHost = (TrafficHost) vm.getHost();
+				//	TrafficHost oldHost = (TrafficHost) getVmAllocationPolicy().getHost(vm);
+					Log.printLine(" targetHost"+targetHost.getId()+ " oldHost"+oldHost.getId());
                     Log.printLine("vm "+vm.getId()+" oldHost"+ oldHost.getId()+" targetHost"+targetHost.getId());
 					targetHost.addMigratingInVm(vm);
 
 					if (oldHost == null) {
 						Log.formatLine("%.2f: Migration of VM #%d to Host #%d is started", CloudSim.clock(), vm.getId(), targetHost.getId());
-					} else {
+				} 
+					else {
 						Log.formatLine("%.2f: Migration of VM #%d from Host #%d to Host #%d is started", CloudSim.clock(), vm.getId(), oldHost.getId(), targetHost.getId());
 					}
 

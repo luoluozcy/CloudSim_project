@@ -14,6 +14,7 @@ import org.cloudbus.cloudsim.NetworkTopology;
 import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmAllocationPolicySimple;
 import org.cloudbus.cloudsim.core.CloudSim;
+import org.cloudbus.cloudsim.power.PowerHost;
 import org.cloudbus.cloudsim.traffic.TrafficHost;
 import org.cloudbus.cloudsim.traffic.lists.TrafficVmList;
 
@@ -177,7 +178,7 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 		}
 		
 		//saveAllocation(vmList);
-		
+		saveAllocation(vmList);
 		List<TrafficVm> vmsToRestore = new ArrayList<TrafficVm>();
 		vmsToRestore.addAll((Collection<? extends TrafficVm>) vmList);
 
@@ -193,7 +194,8 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 			//	Log.printLine(vm1.getId());
 		//	for(int i=0;i<vmsToMigrate.size();i++)
 		//		Log.printLine(vmsToMigrate.get(i).getId());
-			vm.getHost().vmDestroy(vm);	//这里把vmlist设置为null，其host为null		
+			 // if(vm.getHost()!=null)
+			     vm.getHost().vmDestroy(vm);	//这里把vmlist设置为null，其host为null		
 		}
 		Log.printLine("in the TrafficVmAllocaton, before sort, the vmlist is ");
 		for(int i=0;i<vmsToMigrate.size();i++)
@@ -213,14 +215,15 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 		//}
 		for (TrafficVm vm : vmsToMigrate) {
 			TrafficHost oldHost = (TrafficHost) getVmTable().get(vm.getUid());
-			Log.printLine("vm "+vm.getId()+" oldHost "+oldHost.getId());
+		//	PowerHost oldHost = (PowerHost) getVmTable().get(vm.getUid());
 			TrafficHost allocatedHost = findHostForVm(vm,vmList);
-			Log.printLine("vm "+vm.getId()+" allocatedHost "+allocatedHost.getId());
-			
+			//Log.printLine("vm "+vm.getId()+" allocatedHost "+allocatedHost.getId());
+			Log.printLine("vm oldHost allocatedHost"+vm.getId()+oldHost.getId()+allocatedHost.getId());
 			Log.printLine("vm "+vm.getId()+" oldHost "+oldHost.getId()+ " allocatedHost "+allocatedHost.getId());
 			
 			if (allocatedHost != null && allocatedHost.getId() != oldHost.getId()) {
 				allocatedHost.vmCreate(vm);
+				Log.printLine("vm oldHost allocatedHost"+vm.getId()+oldHost.getId()+allocatedHost.getId());
 				Log.printLine("VM #" + vm.getId() + "original host #"+oldHost.getId()+" ,the host #" + allocatedHost.getId());
 
 				Map<String, Object> migrate = new HashMap<String, Object>();
@@ -231,7 +234,7 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 		}
 
 		restoreAllocation(vmsToRestore, getHostList());
-         
+        Log.printLine(" optimizeAllocation migrationMap"+migrationMap.size());
 		return migrationMap;
 	}
 
@@ -256,6 +259,8 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 	 * @param vmsToRestore the vms to restore
 	 */
 	protected void restoreAllocation(List<TrafficVm> vmsToRestore, List<Host> hostList) {
+		Log.printLine("in the restoreAllocation");
+		Log.printLine("restoreAllocation  getSavedAllocation().size()"+ getSavedAllocation().size());
 		for (Host host : hostList) {
 			host.vmDestroyAll();
 			host.reallocateMigratingVms();

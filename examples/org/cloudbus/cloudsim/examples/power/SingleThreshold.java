@@ -51,9 +51,9 @@ public class SingleThreshold {
 
 	private static double utilizationThreshold = 0.8;
 
-	private static double hostsNumber = 100;
-	private static double vmsNumber = 200;
-	private static double cloudletsNumber = 200;
+	private static double hostsNumber = 2;
+	private static double vmsNumber = 5;
+	private static double cloudletsNumber = 5;
 
 	/**
 	 * Creates main() to run this example.

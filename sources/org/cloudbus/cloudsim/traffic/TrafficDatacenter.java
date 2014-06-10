@@ -203,6 +203,12 @@ public class TrafficDatacenter extends Datacenter {
            } else {
         	   data[2] = CloudSimTags.FALSE;
            }
+         //  if(getVmList()==this.getTotalVmList()){
+        	  // Log.print("vm create process is completes,and the initial traffic is ");
+              // double Totaltraffic=this.getTotalTraffic();
+             //  Log.printLine(Totaltraffic);
+       //   }
+           
 		   sendNow(vm.getUserId(), CloudSimTags.VM_CREATE_ACK, data);
  	    }
 
@@ -241,7 +247,8 @@ public class TrafficDatacenter extends Datacenter {
 	public double getTraffic() {
 		return traffic;
 	}
-
+	
+	
 	/**
 	 * Sets the power.
 	 *
@@ -346,7 +353,7 @@ public class TrafficDatacenter extends Datacenter {
 	protected void incrementMigrationCount() {
 		setMigrationCount(getMigrationCount() + 1);
 	}
-
+	
 
 }
 

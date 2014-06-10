@@ -31,6 +31,7 @@ import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmSchedulerTimeShared;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.traffic.TrafficDatacenter;
+import org.cloudbus.cloudsim.traffic.TrafficDatacenterBroker;
 import org.cloudbus.cloudsim.traffic.TrafficHost;
 import org.cloudbus.cloudsim.traffic.TrafficPe;
 import org.cloudbus.cloudsim.traffic.TrafficVm;
@@ -59,10 +60,16 @@ public class SingleThreshold {
 	private static double [][] DisMatrix=null;
 	private static double utilizationThreshold = 0.8;
 	private static int HostTopoType=1;
-	private static int hostsNumber = 2;
-	private static double vmsNumber = 5;
-	private static double cloudletsNumber = 5;
+	private static String topologyType="AS";
+	private static String modelType="WAXMAN";
+	private static int numNode=100;
+	private static String BwType="UNIFORM";
+	private static String NodePlaceType="Random";
+	private static int hostsNumber = 10;
+	private static double vmsNumber = 100;
+	private static double cloudletsNumber = 100;
 	public  static  List<TrafficVm> TotalvmList=new  ArrayList<TrafficVm>();
+	
 	/**
 	 * Creates main() to run this example.
 	 *
@@ -91,7 +98,7 @@ public class SingleThreshold {
 			                                                                //一个Machine是由一个或者多个PEs或CPUs组成
 
 			// Third step: Create Broker
-			DatacenterBroker broker = createBroker();
+			TrafficDatacenterBroker broker =  createBroker();
 			int brokerId = broker.getId();//创建代理
 
 			// Fourth step: Create one virtual machine
@@ -102,11 +109,11 @@ public class SingleThreshold {
 			    Log.printLine(vmList.get(i).getId());
 			}
 			//Log.printLine("TotalList :"+TotalvmList.size());
-			//TotalvmList=new List<>
-		 // TotalvmList=new List;//(vmList);
-			//for(int i=0;i<vmList.size();i++){
+			//TotalvmList=new List<>;
+		 //TotalvmList=new List;//(vmList);
+		for(int i=0;i<vmList.size();i++)
 				//Total
-				//TotalvmList.add(vmList.get(i));
+				TotalvmList.add(vmList.get(i));
 			   // Log.printLine(TotalvmList.get(i));
 			//}
 			// submit vm list to the broker
@@ -122,11 +129,11 @@ public class SingleThreshold {
 			
 			//----------------------------------------构建Topu--------------------------------------------//
 			
-			NetworkTopology.buildNetworkTopology("D:\\eclipse\\cloudsim-net\\topology.brite");
+			NetworkTopology.buildNetworkTopology( topologyType, modelType, numNode, BwType, NodePlaceType);
 			//NetworkTopology.
 			Log.printLine("In SingleThreshold Main, the VMTopo is :");
 			bwMatrix=NetworkTopology.getBwMatrix();
-			for(int i=0;i<vmList.size();i++)
+			for(int  i=0;i<vmList.size();i++)
 			for(int j=0;j<vmList.size();j++)
 					Log.printLine(bwMatrix[i][j]);
 			Log.printLine(NetworkTopology.getVmNum());
@@ -374,10 +381,10 @@ public class SingleThreshold {
 	 *
 	 * @return the datacenter broker
 	 */
-	private static DatacenterBroker createBroker() {
-		DatacenterBroker broker = null;
+	private static TrafficDatacenterBroker createBroker() {
+		TrafficDatacenterBroker broker = null;
 		try {
-			broker = new DatacenterBroker("Broker");
+			broker = new TrafficDatacenterBroker("Broker");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

@@ -1,4 +1,7 @@
-package org.cloudbus.cloudsim;
+package org.cloudbus.cloudsim.traffic;
+
+import org.cloudbus.cloudsim.CloudCoordinator;
+import org.cloudbus.cloudsim.Sensor;
 
 public class TrafficCloudCorrdinator extends CloudCoordinator {
 	//private Sensor<Double> sensor=new Sensor<Double>(){

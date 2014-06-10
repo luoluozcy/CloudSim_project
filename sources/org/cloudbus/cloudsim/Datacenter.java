@@ -459,7 +459,7 @@ public class Datacenter extends SimEntity {
 	protected void processVmCreate(SimEvent ev, boolean ack) {
     	Vm vm = (Vm) ev.getData();
         Log.printLine("In datacenter processVmCreate, the vm"+vm.getId()+"  this.getVmList()"+this.getVmList().size());
- 	   Log.printLine(" getVmAllocationPolicy()"+  getVmAllocationPolicy().getClass());
+ 	   //Log.printLine(" getVmAllocationPolicy()"+  getVmAllocationPolicy().getClass());
        boolean result = getVmAllocationPolicy().allocateHostForVm(vm);
 
  	    if (ack) {

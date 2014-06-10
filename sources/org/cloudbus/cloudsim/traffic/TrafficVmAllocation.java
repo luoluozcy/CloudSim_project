@@ -230,10 +230,12 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 		//	PowerHost oldHost = (PowerHost) getVmTable().get(vm.getUid());
 			TrafficHost allocatedHost = findHostForVm(vm,vmList);
 			//Log.printLine("vm "+vm.getId()+" allocatedHost "+allocatedHost.getId());
-			Log.printLine("vm oldHost allocatedHost"+vm.getId()+oldHost.getId()+allocatedHost.getId());
-			Log.printLine("vm "+vm.getId()+" oldHost "+oldHost.getId()+ " allocatedHost "+allocatedHost.getId());
+		//	if(allocatedHost!=null){
+			
 			
 			if (allocatedHost != null && allocatedHost.getId() != oldHost.getId()) {
+				Log.printLine("vm oldHost allocatedHost"+vm.getId()+oldHost.getId()+allocatedHost.getId());
+				Log.printLine("vm "+vm.getId()+" oldHost "+oldHost.getId()+ " allocatedHost "+allocatedHost.getId());
 				allocatedHost.vmCreate(vm);
 				Log.printLine("vm oldHost allocatedHost"+vm.getId()+oldHost.getId()+allocatedHost.getId());
 				Log.printLine("VM #" + vm.getId() + "original host #"+oldHost.getId()+" ,the host #" + allocatedHost.getId());
@@ -244,6 +246,7 @@ public class TrafficVmAllocation extends VmAllocationPolicySimple {
 				migrationMap.add(migrate);
 			}
 		}
+		
 
 		restoreAllocation(vmsToRestore, getHostList());
         Log.printLine(" optimizeAllocation migrationMap"+migrationMap.size());

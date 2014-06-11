@@ -13,8 +13,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+<<<<<<< HEAD
 //import org.cloudbus.cloudsim.brite.Brite.Main;
 import org.cloudbus.cloudsim.brite.Main.Brite;
+=======
+>>>>>>> luoluo/master
 import org.cloudbus.cloudsim.network.DelayMatrix_Float;
 import org.cloudbus.cloudsim.network.GraphReaderBrite;
 import org.cloudbus.cloudsim.network.TopologicalGraph;
@@ -57,10 +60,14 @@ public class NetworkTopology {
 	 * @pre fileName != null
 	 * @post $none
 	 */
+<<<<<<< HEAD
 	public static void buildNetworkTopology(String topologyType,String modelType,int numNode,String BwType,String NodePlaceType) {
 		
 		String fileName=Brite.runBrite( topologyType, modelType, numNode, BwType, NodePlaceType);
 		
+=======
+	public static void buildNetworkTopology(String fileName) {
+>>>>>>> luoluo/master
     	Log.printLine("Topology file: " + fileName);
          setNetworkEnabled();
 		//try to find the file

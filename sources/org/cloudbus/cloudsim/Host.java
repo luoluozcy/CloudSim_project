@@ -124,7 +124,10 @@ public class Host {
 			getRamProvisioner().allocateRamForVm(vm, vm.getCurrentRequestedRam());
 			getBwProvisioner().allocateBwForVm(vm, vm.getCurrentRequestedBw());
 			getVmsMigratingIn().add(vm);
+<<<<<<< HEAD
 			Log.printLine(" in addVmsMigratingIn"+ vm.getId());
+=======
+>>>>>>> luoluo/master
 		}
 	}
 
@@ -136,7 +139,10 @@ public class Host {
 
 	public void reallocateMigratingVms() {
 		for (Vm vm : getVmsMigratingIn()) {
+<<<<<<< HEAD
 			Log.printLine("reallocateMigratingVms "+vm.getId());
+=======
+>>>>>>> luoluo/master
 			getRamProvisioner().allocateRamForVm(vm, vm.getCurrentRequestedRam());
 			getBwProvisioner().allocateBwForVm(vm, vm.getCurrentRequestedBw());
 		}
@@ -455,7 +461,11 @@ public class Host {
 	 *
 	 * @return the VM scheduler
 	 */
+<<<<<<< HEAD
 	public VmScheduler getVmScheduler() {
+=======
+	protected VmScheduler getVmScheduler() {
+>>>>>>> luoluo/master
 		return vmScheduler;
 	}
 
@@ -581,8 +591,12 @@ public class Host {
 	 * @return the vms migrating in
 	 */
     public List<Vm> getVmsMigratingIn() {
+<<<<<<< HEAD
     	Log.printLine("in the getVmsMigratingIn "+vmsMigratingIn.size());
     	return vmsMigratingIn;
+=======
+		return vmsMigratingIn;
+>>>>>>> luoluo/master
 	}
 
 	/**
@@ -591,7 +605,10 @@ public class Host {
 	 * @param vmsMigratingIn the new vms migrating in
 	 */
 	protected void setVmsMigratingIn(List<Vm> vmsMigratingIn) {
+<<<<<<< HEAD
 		Log.printLine("in the setVmsMigratingIn "+vmsMigratingIn.size());
+=======
+>>>>>>> luoluo/master
 		this.vmsMigratingIn = vmsMigratingIn;
 	}
 	

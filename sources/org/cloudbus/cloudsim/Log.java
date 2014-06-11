@@ -13,10 +13,17 @@ import java.io.OutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+<<<<<<< HEAD
 //import java.io.FileOutputStream;
 //import java.io.FileReader;
 import java.io.FileWriter;
 //import java.io.OutputStream;
+=======
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.OutputStream;
+>>>>>>> luoluo/master
 /**
  * The Log class used for performing loggin of the simulation process.
  * It provides the ability to substitute the output stream by any

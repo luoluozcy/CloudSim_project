@@ -135,7 +135,10 @@ public class PowerDatacenter extends Datacenter {
 			/** Remove completed VMs **/
 			for (PowerHost host : this.<PowerHost>getHostList()) {
 				for (Vm vm : host.getCompletedVms()) {
+<<<<<<< HEAD
 					Log.printLine("getCompletedVms "+vm.getId());
+=======
+>>>>>>> luoluo/master
 					getVmAllocationPolicy().deallocateHostForVm(vm);
 					getVmList().remove(vm);
 					Log.printLine("VM #" + vm.getId() + " has been deallocated from host #" + host.getId());
@@ -145,6 +148,7 @@ public class PowerDatacenter extends Datacenter {
 			Log.printLine();
 
 			if (!isDisableMigrations()) {
+<<<<<<< HEAD
 				Log.printLine("in the PowerDataceter,test the VMMap befor optimizeAllocation");
 				for(Vm vm:getVmList())
 					Log.printLine("vm : and Host : "+vm.getId()+" "+vm.getHost().getId());
@@ -153,12 +157,20 @@ public class PowerDatacenter extends Datacenter {
 				Log.printLine("in the PowerDataceter,test the VMMap after optimizeAllocation");
 				for(Vm vm:getVmList())
 					Log.printLine("vm : and Host : "+vm.getId()+" "+vm.getHost().getId());
+=======
+				List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocation(getVmList());
+
+>>>>>>> luoluo/master
 				for (Map<String, Object> migrate : migrationMap) {
 					Vm vm = (Vm) migrate.get("vm");
 					PowerHost targetHost = (PowerHost) migrate.get("host");
 					PowerHost oldHost = (PowerHost) vm.getHost();
+<<<<<<< HEAD
 					Log.printLine(" targetHost"+targetHost.getId()+ " oldHost"+oldHost.getId());
                     Log.printLine("vm "+vm.getId()+" oldHost"+ oldHost.getId()+" targetHost"+targetHost.getId());
+=======
+
+>>>>>>> luoluo/master
 					targetHost.addMigratingInVm(vm);
 
 					if (oldHost == null) {

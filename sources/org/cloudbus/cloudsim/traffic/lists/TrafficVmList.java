@@ -46,13 +46,21 @@ public class TrafficVmList extends VmList {
 	}
 	
 	public static double getCommVMID(List<TrafficVm> vmList, int vmid) {
+<<<<<<< HEAD
 
 //double BwMatrix[][]=NetworkTopology.getBwMatrix();
+=======
+		//double BwMatrix[][]=NetworkTopology.getBwMatrix();
+>>>>>>> luoluo/master
 		double traffic=0.0;
 		int VmNum=vmList.size();
 		
 		for(int i=0;i< VmNum;i++)
+<<<<<<< HEAD
 		traffic+=NetworkTopology.getBw(vmList.get(i).getId(), vmid)+NetworkTopology.getBw (vmid,vmList.get(i).getId());
+=======
+		traffic+=NetworkTopology.getBw(i, vmid)+NetworkTopology.getBw (vmid,i);
+>>>>>>> luoluo/master
 		return traffic;		
 		//return TrafficPeList.getTraffic((List<TrafficPe>) getPeList());
 

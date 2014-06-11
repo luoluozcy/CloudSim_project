@@ -15,7 +15,10 @@ import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEvent;
 import org.cloudbus.cloudsim.core.predicates.PredicateType;
+<<<<<<< HEAD
 import org.cloudbus.cloudsim.examples.traffic.SingleThreshold;
+=======
+>>>>>>> luoluo/master
 
 /**
  * TrafficDatacenter is a class that enables simulation of power-aware data centers.
@@ -52,7 +55,11 @@ public class TrafficDatacenter extends Datacenter {
 	public TrafficDatacenter(
 			String name,
 			DatacenterCharacteristics characteristics,
+<<<<<<< HEAD
 			TrafficVmAllocation vmAllocationPolicy,
+=======
+			VmAllocationPolicy vmAllocationPolicy,
+>>>>>>> luoluo/master
 			List<Storage> storageList,
 			double schedulingInterval) throws Exception {
 		super(name, characteristics, vmAllocationPolicy, storageList, schedulingInterval);
@@ -66,10 +73,13 @@ public class TrafficDatacenter extends Datacenter {
 	public List<TrafficVm> getVmList() {
 		return (List<TrafficVm>) this.vmList;
 	}
+<<<<<<< HEAD
 	
 	public List<TrafficVm> getTotalVmList() {
 		return (List<TrafficVm>) SingleThreshold.TotalvmList;
 	}
+=======
+>>>>>>> luoluo/master
 	/**
 	 * Updates processing of each cloudlet running in this TrafficDatacenter. It is necessary because
 	 * Hosts and VirtualMachines are simple objects, not entities. So, they don't receive events
@@ -136,11 +146,16 @@ public class TrafficDatacenter extends Datacenter {
 			setTraffic(getTraffic() + timeframeTraffic);
 			
 			/** Remove completed VMs **/
+<<<<<<< HEAD
 			Log.printLine("in updateCloudletProcessing,the getCompletedVms ");
 			for (TrafficHost host : this.<TrafficHost>getHostList()) {
 				Log.print("host "+host.getId());
 				for (Vm vm : host.getCompletedVms()) {
 					Log.print(" "+vm.getId());
+=======
+			for (TrafficHost host : this.<TrafficHost>getHostList()) {
+				for (Vm vm : host.getCompletedVms()) {
+>>>>>>> luoluo/master
 					getVmAllocationPolicy().deallocateHostForVm(vm);
 					getVmList().remove(vm);
 					Log.printLine("VM #" + vm.getId() + " has been deallocated from host #" + host.getId());
@@ -148,23 +163,38 @@ public class TrafficDatacenter extends Datacenter {
 			}
 
 			Log.printLine();
+<<<<<<< HEAD
 			Log.printLine("  in trafficDatacenter, the updateCloudletProcessing,isDisableMigrations "+isDisableMigrations());
 			if (!isDisableMigrations()) {
 				List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocation(getVmList());
            Log.printLine("  migrationMap " +migrationMap.size());
+=======
+
+			if (!isDisableMigrations()) {
+				List<Map<String, Object>> migrationMap = getVmAllocationPolicy().optimizeAllocation(getVmList());
+
+>>>>>>> luoluo/master
 				for (Map<String, Object> migrate : migrationMap) {
 					Vm vm = (Vm) migrate.get("vm");
 					TrafficHost targetHost = (TrafficHost) migrate.get("host");
 					TrafficHost oldHost = (TrafficHost) vm.getHost();
+<<<<<<< HEAD
 				//	TrafficHost oldHost = (TrafficHost) getVmAllocationPolicy().getHost(vm);
 					Log.printLine(" targetHost"+targetHost.getId()+ " oldHost"+oldHost.getId());
                     Log.printLine("vm "+vm.getId()+" oldHost"+ oldHost.getId()+" targetHost"+targetHost.getId());
+=======
+
+>>>>>>> luoluo/master
 					targetHost.addMigratingInVm(vm);
 
 					if (oldHost == null) {
 						Log.formatLine("%.2f: Migration of VM #%d to Host #%d is started", CloudSim.clock(), vm.getId(), targetHost.getId());
+<<<<<<< HEAD
 				} 
 					else {
+=======
+					} else {
+>>>>>>> luoluo/master
 						Log.formatLine("%.2f: Migration of VM #%d from Host #%d to Host #%d is started", CloudSim.clock(), vm.getId(), oldHost.getId(), targetHost.getId());
 					}
 
@@ -187,6 +217,7 @@ public class TrafficDatacenter extends Datacenter {
 		}
 	}
 
+<<<<<<< HEAD
 	protected void processVmCreate(SimEvent ev, boolean ack) {
     	Vm vm = (Vm) ev.getData();
         Log.printLine("In datacenter processVmCreate, the vm"+vm.getId()+"  this.getVmList()"+this.getVmList().size());
@@ -230,6 +261,8 @@ public class TrafficDatacenter extends Datacenter {
     }
 
 	
+=======
+>>>>>>> luoluo/master
 	/* (non-Javadoc)
 	 * @see cloudsim.Datacenter#processCloudletSubmit(cloudsim.core.SimEvent, boolean)
 	 */
@@ -247,8 +280,12 @@ public class TrafficDatacenter extends Datacenter {
 	public double getTraffic() {
 		return traffic;
 	}
+<<<<<<< HEAD
 	
 	
+=======
+
+>>>>>>> luoluo/master
 	/**
 	 * Sets the power.
 	 *
@@ -353,7 +390,11 @@ public class TrafficDatacenter extends Datacenter {
 	protected void incrementMigrationCount() {
 		setMigrationCount(getMigrationCount() + 1);
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> luoluo/master
 
 }
 

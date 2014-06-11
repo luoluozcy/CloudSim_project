@@ -11,8 +11,11 @@ package org.cloudbus.cloudsim;
 import java.util.List;
 import java.util.Map;
 
+<<<<<<< HEAD
 import org.cloudbus.cloudsim.traffic.TrafficVm;
 
+=======
+>>>>>>> luoluo/master
 /**
  * VmAllocationPolicy is an abstract class that represents the provisioning
  * policy of hosts to virtual machines in a Datacentre. It supports two-stage
@@ -63,7 +66,10 @@ public abstract class VmAllocationPolicy {
 	 * @pre $none
 	 * @post $none
 	 */
+<<<<<<< HEAD
 	public abstract boolean allocateHostForVm1(TrafficVm vm,List<TrafficVm> list);
+=======
+>>>>>>> luoluo/master
 	public abstract boolean allocateHostForVm(Vm vm, Host host);
 
 	/**
@@ -133,10 +139,13 @@ public abstract class VmAllocationPolicy {
 		return (List<T>) hostList;
 	}
 
+<<<<<<< HEAD
 	public boolean allocateHostForVm(TrafficVm vm, List<TrafficVm> vmList) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+=======
+>>>>>>> luoluo/master
 
 }

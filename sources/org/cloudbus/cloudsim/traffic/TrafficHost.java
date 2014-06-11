@@ -2,15 +2,21 @@ package org.cloudbus.cloudsim.traffic;
 
 
 import java.util.Iterator;
+<<<<<<< HEAD
 import java.util.LinkedList;
+=======
+>>>>>>> luoluo/master
 import java.util.List;
 
 import org.cloudbus.cloudsim.HostDynamicWorkload;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.Pe;
 import org.cloudbus.cloudsim.VmScheduler;
+<<<<<<< HEAD
 import org.cloudbus.cloudsim.traffic.lists.TrafficVmList;
 
+=======
+>>>>>>> luoluo/master
 import org.cloudbus.cloudsim.traffic.lists.TrafficPeList;
 import org.cloudbus.cloudsim.provisioners.BwProvisioner;
 import org.cloudbus.cloudsim.provisioners.RamProvisioner;
@@ -55,14 +61,22 @@ public class TrafficHost extends HostDynamicWorkload {
 		//return TrafficPeList.getTraffic((List<TrafficPe>) getPeList());
 		double traffic=0.0;
 		TrafficHost host=this.getHostIndexOfID(this.getId());
+<<<<<<< HEAD
 		List<TrafficVm> vmList=new LinkedList<TrafficVm>();
+=======
+		List<TrafficVm> vmList;
+>>>>>>> luoluo/master
 		vmList=host.getVmList();
 	//	TotalvmList=
 		//vmList=host.
 		Iterator<TrafficVm> iter=vmList.iterator();
 		while(iter.hasNext()){
 			TrafficVm vm = iter.next();
+<<<<<<< HEAD
 			Log.printLine(" in TaffiHost, the vm "+vm.getId()+ " is on host "+this.getId());
+=======
+			Log.printLine(" in TaffiHost, the host "+this.getId()+"  of VM "+vm.getId());
+>>>>>>> luoluo/master
 			traffic += vm.getTraffic(host, vm, TotalvmList);	
 		}
 		return traffic;
@@ -104,6 +118,7 @@ public class TrafficHost extends HostDynamicWorkload {
 		
 		else return false;
 	}
+<<<<<<< HEAD
 	//选择一个合适的VM来迁移，直到当前host上的mips不过载
     public List<TrafficVm> selectVmForMigration(){
     	double aviblemips=this.getAvailableMips();
@@ -114,6 +129,11 @@ public class TrafficHost extends HostDynamicWorkload {
     	for(TrafficVm vm:vmList)
     		Log.print(vm.getId()+" ");
     	
+=======
+    public List<TrafficVm> selectVmForMigration(){
+    	double aviblemips=this.getAvailableMips();
+    	List<TrafficVm> vmList=this.getVmList();
+>>>>>>> luoluo/master
     	List<TrafficVm> selectVm = null;
     	//sort(vmList,)
     	int pos=0;
@@ -130,7 +150,11 @@ public class TrafficHost extends HostDynamicWorkload {
 
    
 
+<<<<<<< HEAD
    public void selectHostForVm(List<TrafficVm> selectVmList, List<TrafficHost> hostList)
+=======
+   public void selectVmForHost(List<TrafficVm> selectVmList, List<TrafficHost> hostList)
+>>>>>>> luoluo/master
     {
 	   //selectVmForMigration
 	   Iterator<TrafficVm> iter=selectVmList.iterator();

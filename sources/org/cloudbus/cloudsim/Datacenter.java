@@ -234,7 +234,11 @@ public class Datacenter extends SimEntity {
            	case CloudSimTags.VM_DESTROY_ACK:
         		processVmDestroy(ev, true);
         		break;
+<<<<<<< HEAD
         		//VM_MIGRATE
+=======
+
+>>>>>>> luoluo/master
            	case CloudSimTags.VM_MIGRATE:
            		processVmMigrate(ev, false);
            		break;
@@ -458,9 +462,14 @@ public class Datacenter extends SimEntity {
      */
 	protected void processVmCreate(SimEvent ev, boolean ack) {
     	Vm vm = (Vm) ev.getData();
+<<<<<<< HEAD
         Log.printLine("In datacenter processVmCreate, the vm"+vm.getId()+"  this.getVmList()"+this.getVmList().size());
  	   //Log.printLine(" getVmAllocationPolicy()"+  getVmAllocationPolicy().getClass());
        boolean result = getVmAllocationPolicy().allocateHostForVm(vm);
+=======
+
+ 	    boolean result = getVmAllocationPolicy().allocateHostForVm(vm);
+>>>>>>> luoluo/master
 
  	    if (ack) {
  	       int[] data = new int[3];

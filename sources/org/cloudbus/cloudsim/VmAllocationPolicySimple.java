@@ -10,6 +10,7 @@ package org.cloudbus.cloudsim;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+<<<<<<< HEAD
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,12 @@ import java.util.Map.Entry;
 
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.traffic.TrafficVm;
+=======
+import java.util.List;
+import java.util.Map;
+
+import org.cloudbus.cloudsim.core.CloudSim;
+>>>>>>> luoluo/master
 
 /**
  * VmAllocationPolicySimple is an VmAllocationPolicy that
@@ -112,6 +119,7 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 
 		return result;
 	}
+<<<<<<< HEAD
 	@Override
 	public boolean allocateHostForVm1(TrafficVm vm,List<TrafficVm> vmList) {
 		Log.printLine("in VmAllocationSimple");
@@ -156,6 +164,9 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 
 		return result;
 	}
+=======
+
+>>>>>>> luoluo/master
 	/**
 	 * Releases the host used by a VM.
 	 *
@@ -168,6 +179,7 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 	public void deallocateHostForVm(Vm vm) {
 		Host host = getVmTable().remove(vm.getUid());
 		int idx = getHostList().indexOf(host);
+<<<<<<< HEAD
 		Log.printLine("deallocateHostForVm, the host uid"+host.getId()+" "+vm.getUid());
 		Map<String, Integer> map=getUsedPes();
 		
@@ -183,6 +195,8 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 		//Iterator it=map.entrySet().iterator();
 		
 		Log.printLine(map.containsKey(vm.getUid())+" "+map.containsValue(vm.getId()));
+=======
+>>>>>>> luoluo/master
 		int pes = getUsedPes().remove(vm.getUid());
 		if (host != null) {
 			host.vmDestroy(vm);
@@ -299,6 +313,9 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 
 		return false;
 	}
+<<<<<<< HEAD
 
 	
+=======
+>>>>>>> luoluo/master
 }

@@ -31,10 +31,9 @@ import org.cloudbus.cloudsim.Vm;
 import org.cloudbus.cloudsim.VmSchedulerTimeShared;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.traffic.TrafficDatacenter;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 import org.cloudbus.cloudsim.traffic.TrafficDatacenterBroker;
-=======
->>>>>>> luoluo/master
+
 import org.cloudbus.cloudsim.traffic.TrafficHost;
 import org.cloudbus.cloudsim.traffic.TrafficPe;
 import org.cloudbus.cloudsim.traffic.TrafficVm;
@@ -63,23 +62,18 @@ public class SingleThreshold {
 	private static double [][] DisMatrix=null;
 	private static double utilizationThreshold = 0.8;
 	private static int HostTopoType=1;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	private static String topologyType="AS";
 	private static String modelType="WAXMAN";
-	private static int numNode=100;
+	private static int numNode=10;
 	private static String BwType="UNIFORM";
 	private static String NodePlaceType="Random";
-	private static int hostsNumber = 10;
-	private static double vmsNumber = 100;
-	private static double cloudletsNumber = 100;
+	private static int hostsNumber = 5;
+	private static double vmsNumber = 10;
+	private static double cloudletsNumber = 10;
 	public  static  List<TrafficVm> TotalvmList=new  ArrayList<TrafficVm>();
 	
-=======
-	private static int hostsNumber = 2;
-	private static double vmsNumber = 5;
-	private static double cloudletsNumber = 5;
 
->>>>>>> luoluo/master
 	/**
 	 * Creates main() to run this example.
 	 *
@@ -108,17 +102,15 @@ public class SingleThreshold {
 			                                                                //一个Machine是由一个或者多个PEs或CPUs组成
 
 			// Third step: Create Broker
-<<<<<<< HEAD
+//<<<<<<< HEAD
 			TrafficDatacenterBroker broker =  createBroker();
-=======
-			DatacenterBroker broker = createBroker();
->>>>>>> luoluo/master
+
 			int brokerId = broker.getId();//创建代理
 
 			// Fourth step: Create one virtual machine
 			vmList = createVms(brokerId);//创建虚拟机，创建时为虚拟机制定Broker，设置VMlist的参数信息，包括MIPS，RAM，BW等
 			//创建虚拟机
-<<<<<<< HEAD
+//<<<<<<< HEAD
 			for(int i=0;i<vmList.size();i++){
 				//TotalvmList.add(vmList.get(i));
 			    Log.printLine(vmList.get(i).getId());
@@ -131,9 +123,7 @@ public class SingleThreshold {
 				TotalvmList.add(vmList.get(i));
 			   // Log.printLine(TotalvmList.get(i));
 			//}
-=======
-            
->>>>>>> luoluo/master
+
 			// submit vm list to the broker
 			broker.submitVmList(vmList);//把待创建VMList发送给broker
 		                               	//向代理Broker提交虚拟机列表
@@ -147,19 +137,13 @@ public class SingleThreshold {
 			
 			//----------------------------------------构建Topu--------------------------------------------//
 			
-<<<<<<< HEAD
+//<<<<<<< HEAD
 			NetworkTopology.buildNetworkTopology( topologyType, modelType, numNode, BwType, NodePlaceType);
 			//NetworkTopology.
 			Log.printLine("In SingleThreshold Main, the VMTopo is :");
 			bwMatrix=NetworkTopology.getBwMatrix();
 			for(int  i=0;i<vmList.size();i++)
-=======
-			NetworkTopology.buildNetworkTopology("D:\\eclipse\\cloudsim-net\\topology.brite");
-			//NetworkTopology.
-			Log.printLine("In SingleThreshold Main, the VMTopo is :");
-			bwMatrix=NetworkTopology.getBwMatrix();
-			for(int i=0;i<vmList.size();i++)
->>>>>>> luoluo/master
+
 			for(int j=0;j<vmList.size();j++)
 					Log.printLine(bwMatrix[i][j]);
 			Log.printLine(NetworkTopology.getVmNum());
@@ -183,21 +167,14 @@ public class SingleThreshold {
 				
 			//maps CloudSim entities to BRITE entities
 			//PowerDatacenter will correspond to BRITE node 0
-<<<<<<< HEAD
+//<<<<<<< HEAD
 			//int briteNode=0;
 			//NetworkTopology.mapNode(datacenter.getId(),briteNode);
             
 			//Broker will correspond to BRITE node 3
 			//briteNode=3;
 		//	NetworkTopology.mapNode(broker.getId(),briteNode);
-=======
-			int briteNode=0;
-			NetworkTopology.mapNode(datacenter.getId(),briteNode);
-            
-			//Broker will correspond to BRITE node 3
-			briteNode=3;
-			NetworkTopology.mapNode(broker.getId(),briteNode);
->>>>>>> luoluo/master
+
 
 			//-----------------------------------------------End of Topu----------------------------------------------//
 			// Sixth step: Starts the simulation
@@ -390,26 +367,21 @@ public class SingleThreshold {
 
 		// 6. Finally, we need to create a TrafficDatacenter object.
 		TrafficDatacenter trafficDatacenter = null;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		  // for(TrafficVm vm1: vmList)
 		     //     Log.printLine("TrafficVmAllocation, the vmList is "+vm1.getId());
-=======
->>>>>>> luoluo/master
+
 		try {
 			trafficDatacenter = new TrafficDatacenter(
 					name,
 					characteristics,
-<<<<<<< HEAD
+//<<<<<<< HEAD
 					new TrafficVmAllocation(hostList, utilizationThreshold),
 					new LinkedList<Storage>(),
 					5.0);
 			 
 			
-=======
-					new TrafficVmAllocation(hostList, utilizationThreshold, vmList),
-					new LinkedList<Storage>(),
-					5.0);
->>>>>>> luoluo/master
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -425,17 +397,12 @@ public class SingleThreshold {
 	 *
 	 * @return the datacenter broker
 	 */
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	private static TrafficDatacenterBroker createBroker() {
 		TrafficDatacenterBroker broker = null;
 		try {
 			broker = new TrafficDatacenterBroker("Broker");
-=======
-	private static DatacenterBroker createBroker() {
-		DatacenterBroker broker = null;
-		try {
-			broker = new DatacenterBroker("Broker");
->>>>>>> luoluo/master
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -463,11 +430,9 @@ public class SingleThreshold {
 		for (int i = 0; i < size; i++) {
 			cloudlet = list.get(i);
 			Log.print(indent + cloudlet.getCloudletId());
-<<<<<<< HEAD
+//<<<<<<< HEAD
            
-=======
 
->>>>>>> luoluo/master
 			if (cloudlet.getCloudletStatus() == Cloudlet.SUCCESS) {
 				Log.printLine(indent + "SUCCESS"
 					+ indent + indent + cloudlet.getResourceId()

@@ -64,21 +64,18 @@ public class TrafficVm extends Vm {
 		Log.print("in trafficVm, the vmlist ");
 		for(int i=0;i<vmList.size();i++)
 			Log.print(vmList.get(i).getId()+" ");
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		Log.printLine();
 		//double BwMatrix[][]=NetworkTopology.getBwMatrix();
 		//Log.printLine(NetworkTopology.getVmNum());
-=======
-		//double BwMatrix[][]=NetworkTopology.getBwMatrix();
-		Log.printLine(NetworkTopology.getVmNum());
->>>>>>> luoluo/master
+
 		int VmNum=NetworkTopology.getVmNum();
 		Log.printLine("Number of VM in Topo is "+VmNum);
 		Log.print("Number of VMList is "+vmList.size()+" ");
 		//Iterator<TrafficVm> iter=vmList.iterator();
 		for(TrafficVm vm1:vmList)        
 		    Log.print(vm1.getId()+" ");	
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		Log.printLine();
 		Log.printLine("in trafficVm, the vm "+vm.getId()+ " is on host"+host.getId());
 		double traffic=0.0;
@@ -94,20 +91,7 @@ public class TrafficVm extends Vm {
 			traffic+=NetworkTopology.getBw(vmList.get(i).getId(), vm.getId())*dis;
 		dis=HostTopology.getDelay( TrafficVmList.getById(vmList,vmList.get(i).getId()).getHost().getId(),vm.getHost().getId());
 		traffic+=NetworkTopology.getBw (vm.getId(),vmList.get(i).getId())*dis;
-=======
-		Log.printLine();	
-		double traffic=0.0;
-		for(int i=0;i< vmList.size();i++){
-			Log.print("in trafficVm,the Host for VM is ");
-			//VmList.getById(getVmsCreatedList(), vmId).getHost().getId());
-			Log.print(vm.getHost().getId()+" "+TrafficVmList.getById(vmList,i).getHost().getId());
-			double dis=HostTopology.getDelay(vm.getHost().getId(), TrafficVmList.getById(vmList,i).getHost().getId());
-		   Log.print(" "+ dis);
-		   Log.printLine();
-			traffic+=NetworkTopology.getBw(i, vm.getId())*dis;
-		dis=HostTopology.getDelay( TrafficVmList.getById(vmList,i).getHost().getId(),vm.getHost().getId());
-		traffic+=NetworkTopology.getBw (vm.getId(),i)*dis;
->>>>>>> luoluo/master
+
 		}
 		return traffic;
 	}

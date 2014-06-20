@@ -46,12 +46,10 @@ public class CloudletSchedulerTimeShared extends CloudletScheduler {
 	public CloudletSchedulerTimeShared() {
 		super();
 		this.cloudletExecList = new ArrayList<ResCloudlet>();
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		this
 		.cloudletPausedList = new ArrayList<ResCloudlet>();
-=======
-		this.cloudletPausedList = new ArrayList<ResCloudlet>();
->>>>>>> luoluo/master
+
 		this.cloudletFinishedList = new ArrayList<ResCloudlet>();
 		this.currentCPUs = 0;
 	}

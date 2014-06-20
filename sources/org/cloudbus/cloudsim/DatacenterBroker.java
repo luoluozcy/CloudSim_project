@@ -38,11 +38,9 @@ public class DatacenterBroker extends SimEntity {
 	// TODO: remove unnecessary variables
 
 	/** The vm list. */
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	protected List<? extends Vm> vmList;
-=======
-	private List<? extends Vm> vmList;
->>>>>>> luoluo/master
+
 
 	/** The vms created list. */
 	private List<? extends Vm> vmsCreatedList;
@@ -63,11 +61,8 @@ public class DatacenterBroker extends SimEntity {
 	private int vmsRequested;
 
 	/** The vms acks. */
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	protected int vmsAcks;
-=======
-	private int vmsAcks;
->>>>>>> luoluo/master
 
 	/** The vms destroyed. */
 	private int vmsDestroyed;
@@ -261,11 +256,9 @@ public class DatacenterBroker extends SimEntity {
 		//List<TrafficVm vm=
 
 		if (getVmsCreatedList().size() == getVmList().size() - getVmsDestroyed()) { // all the requested VMs have been created
-<<<<<<< HEAD
+//<<<<<<< HEAD
 			{     
-=======
-			{
->>>>>>> luoluo/master
+
 				List<TrafficVm> vmList=getVmList();
 				Iterator<TrafficVm> iter=vmList.iterator();
 				Log.printLine("in the DataBroker, check the VMTopo ");
@@ -428,11 +421,9 @@ public class DatacenterBroker extends SimEntity {
 	 * @pre $none
 	 * @post $none
 	 */
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	protected void finishExecution() {
-=======
-	private void finishExecution() {
->>>>>>> luoluo/master
+
 		sendNow(getId(), CloudSimTags.END_OF_SIMULATION);
 	}
 

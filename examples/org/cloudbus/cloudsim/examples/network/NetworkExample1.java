@@ -116,7 +116,7 @@ public class NetworkExample1 {
 
 			//Sixth step: configure network
 			//load the network topology file
-			NetworkTopology.buildNetworkTopology("topology.brite");
+			//NetworkTopology.buildNetworkTopology("topology.brite");
 	
 			bwMatrix=NetworkTopology.getBwMatrix();
 			//maps CloudSim entities to BRITE entities

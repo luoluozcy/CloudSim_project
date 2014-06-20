@@ -10,7 +10,7 @@ package org.cloudbus.cloudsim;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -18,12 +18,7 @@ import java.util.Map.Entry;
 
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.traffic.TrafficVm;
-=======
-import java.util.List;
-import java.util.Map;
 
-import org.cloudbus.cloudsim.core.CloudSim;
->>>>>>> luoluo/master
 
 /**
  * VmAllocationPolicySimple is an VmAllocationPolicy that
@@ -119,9 +114,9 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 
 		return result;
 	}
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	@Override
-	public boolean allocateHostForVm1(TrafficVm vm,List<TrafficVm> vmList) {
+	public boolean allocateHostForVm1(TrafficVm vm) {
 		Log.printLine("in VmAllocationSimple");
 		int requiredPes = vm.getPesNumber();
 		boolean result = false;
@@ -137,7 +132,9 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 				int idx = -1;
 
 				//we want the host with less pes in use
-				for (int i=0; i < freePesTmp.size(); i++) {
+			    for (int i=0; i < freePesTmp.size(); i++) {
+				//int i=0;
+				  // i=Math.random()%()
 					if (freePesTmp.get(i) > moreFree) {
 						moreFree = freePesTmp.get(i);
 						idx = i;
@@ -164,9 +161,7 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 
 		return result;
 	}
-=======
 
->>>>>>> luoluo/master
 	/**
 	 * Releases the host used by a VM.
 	 *
@@ -179,7 +174,7 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 	public void deallocateHostForVm(Vm vm) {
 		Host host = getVmTable().remove(vm.getUid());
 		int idx = getHostList().indexOf(host);
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		Log.printLine("deallocateHostForVm, the host uid"+host.getId()+" "+vm.getUid());
 		Map<String, Integer> map=getUsedPes();
 		
@@ -195,8 +190,7 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 		//Iterator it=map.entrySet().iterator();
 		
 		Log.printLine(map.containsKey(vm.getUid())+" "+map.containsValue(vm.getId()));
-=======
->>>>>>> luoluo/master
+
 		int pes = getUsedPes().remove(vm.getUid());
 		if (host != null) {
 			host.vmDestroy(vm);
@@ -313,9 +307,8 @@ public class VmAllocationPolicySimple extends VmAllocationPolicy {
 
 		return false;
 	}
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 	
-=======
->>>>>>> luoluo/master
+
 }
